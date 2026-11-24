@@ -1,0 +1,448 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; font-src 'self'; form-action 'self'">
+<title>Rule 37 ITC reversal tracker for the 180-day supplier payment deadline · Open MSME</title>
+<meta name="description" content="Put every purchase invoice on the 180-day clock, see the input tax credit that reverses if the supplier is not paid, and know which suppliers to pay first to protect the most credit.">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/style.css">
+<link rel="stylesheet" href="assets/accent.css">
+<link rel="stylesheet" href="assets/app.css">
+<script src="assets/theme-init.js"></script>
+</head>
+<body>
+<header class="topbar">
+  <div class="wrap">
+    <a class="brand" href="./">
+      <span class="dot"></span>
+      <b>Open MSME</b>
+      <span class="tag">Rule 37 guard</span>
+    </a>
+    <span class="sp"></span>
+    <button class="themer" data-themer type="button">Theme</button>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="wrap">
+      <div class="eyebrow">MSME finance &middot; India</div>
+      <h1>Rule 37 ITC reversal tracker for the 180-day supplier payment deadline</h1>
+      <p class="lede">Every purchase invoice on the 180-day clock, the input tax credit that reverses if the supplier is not paid in time, the return it lands in &mdash; and which suppliers to pay first to protect the most credit.</p>
+      <div class="who">
+        <span class="pill">GST-registered businesses claiming input tax credit</span>
+        <span class="pill reg">CGST rule 37 &middot; s.16(2) second proviso</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <div class="cols calc">
+      <section class="card">
+        <h2>Your purchase register</h2>
+
+        <div class="field">
+          <label for="f-register">Purchase register <span class="hint">a CSV of the invoices you have taken credit on</span></label>
+          <input type="file" id="f-register" accept=".csv,.tsv,.txt,text/csv,text/plain">
+        </div>
+        <div class="field">
+          <label for="f-payments">Payments to suppliers <span class="hint">optional &mdash; a CSV of what has actually gone out</span></label>
+          <input type="file" id="f-payments" accept=".csv,.tsv,.txt,text/csv,text/plain">
+        </div>
+
+        <details class="assumptions pathbox">
+          <summary>Or point at files already on this computer</summary>
+          <div class="field">
+            <label for="p-register">Path to the purchase register</label>
+            <input type="text" id="p-register" placeholder="~/Documents/purchase-register-2026-27.csv" spellcheck="false">
+          </div>
+          <div class="field">
+            <label for="p-payments">Path to the payments file</label>
+            <input type="text" id="p-payments" placeholder="~/Documents/supplier-payments.csv" spellcheck="false">
+          </div>
+        </details>
+
+        <div class="checkrow">
+          <input type="checkbox" id="i-replace" checked>
+          <label for="i-replace">Replace what is already loaded, rather than adding to it</label>
+        </div>
+
+        <div class="btnrow">
+          <button class="btn primary" id="go-import" type="button">Read the files</button>
+          <button class="btn ghost" id="go-clear" type="button">Clear everything</button>
+        </div>
+        <p class="hintline" id="import-status" role="status">Nothing is uploaded anywhere. The files are read on this computer only.</p>
+        <div class="note bad" id="import-error" hidden></div>
+
+        <h2 class="blockhead">The figures</h2>
+        <div class="field">
+          <label for="i-asof">Work the figures out as at <span class="hint">the date you are preparing the return on</span></label>
+          <input type="date" id="i-asof">
+        </div>
+        <div class="field">
+          <label for="i-period">How often you file FORM GSTR-3B</label>
+          <select id="i-period">
+            <option value="1">Monthly</option>
+            <option value="3">Quarterly, under the QRMP scheme</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="i-dueday">Return due on the <span class="hint">day of the month after the period</span></label>
+          <select id="i-dueday"></select>
+        </div>
+        <div class="field">
+          <label for="i-budget">Cash available for suppliers <span class="hint">leave blank to plan without a limit</span></label>
+          <div class="inp has-pre">
+            <span class="pre">&#8377;</span>
+            <input type="text" id="i-budget" inputmode="decimal" placeholder="2,00,000">
+          </div>
+        </div>
+        <div class="field">
+          <label for="i-horizon">Plan for deadlines within <span class="hint">days &mdash; 0 for every open invoice</span></label>
+          <input type="number" id="i-horizon" min="0" max="3650" step="1" value="60">
+        </div>
+
+        <details class="assumptions">
+          <summary>Interest, ageing and your own details</summary>
+          <div class="field">
+            <label for="i-rate">Interest rate <span class="hint">per cent a year; nil if you take the view none arises</span></label>
+            <div class="inp has-suf">
+              <span class="suf">%</span>
+              <input type="number" id="i-rate" min="0" max="100" step="0.01">
+            </div>
+          </div>
+          <div class="field">
+            <label for="i-basis">Interest on a late reversal runs</label>
+            <select id="i-basis">
+              <option value="reversal-due">From the day the return was due &mdash; the narrower view</option>
+              <option value="availment">From the return in which the credit was taken &mdash; the wider view</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="i-window">Payment window <span class="hint">days from the date of the invoice</span></label>
+            <input type="number" id="i-window" min="1" max="3650" step="1">
+          </div>
+          <div class="field">
+            <label for="i-business">Your business name <span class="hint">for the working paper</span></label>
+            <input type="text" id="i-business" placeholder="Nagarjuna Fabricators">
+          </div>
+          <div class="field">
+            <label for="i-gstin">Your GSTIN <span class="hint">optional</span></label>
+            <input type="text" id="i-gstin" placeholder="29AAGCB7383J1ZS" spellcheck="false">
+          </div>
+          <div class="btnrow">
+            <button class="btn primary" id="go-settings" type="button">Save these figures</button>
+            <button class="btn ghost" id="go-defaults" type="button">Back to the statutory figures</button>
+          </div>
+          <p class="hintline" id="settings-status" role="status"></p>
+        </details>
+      </section>
+
+      <section class="card sticky">
+        <h2>Input tax credit at risk</h2>
+        <div class="result-primary">
+          <div class="k">Credit you can still protect by paying</div>
+          <div class="v" id="r-atrisk">&#8377;0.00</div>
+          <div class="sub" id="r-sub">Load a purchase register to see where you stand</div>
+        </div>
+
+        <table class="breakdown">
+          <tbody>
+            <tr class="rowmain">
+              <td>Reverses this period if nothing is paid</td>
+              <td class="num" id="r-thisperiod">&mdash;</td>
+            </tr>
+            <tr>
+              <td>Already past day 180 &mdash; must be reversed</td>
+              <td class="num" id="r-reversal">&mdash;</td>
+            </tr>
+            <tr class="sub">
+              <td>&hellip; of which the return has already fallen due</td>
+              <td class="num" id="r-overdue">&mdash;</td>
+            </tr>
+            <tr>
+              <td>Re-claimable, the supplier having been paid</td>
+              <td class="num" id="r-reclaim">&mdash;</td>
+            </tr>
+            <tr>
+              <td>Indicative interest on a late reversal</td>
+              <td class="num" id="r-interest">&mdash;</td>
+            </tr>
+            <tr class="total">
+              <td>Net addition to output tax liability</td>
+              <td class="num" id="r-net">&mdash;</td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="hintline" id="r-counts"></p>
+      </section>
+    </div>
+
+    <section class="card" id="notes-card" hidden>
+      <h2>Worth knowing about these files</h2>
+      <div id="notes"></div>
+      <div id="problems"></div>
+    </section>
+
+    <section class="card" id="plan-card" hidden>
+      <h2>Pay these first</h2>
+      <p class="hintline">Ranked by the credit each rupee protects. A part payment protects its own proportion of the credit, so the order below is the most credit saved for the cash you have &mdash; not a rule of thumb.</p>
+      <div class="stats" id="plan-stats"></div>
+      <div class="tablewrap">
+        <table class="breakdown">
+          <thead>
+            <tr>
+              <th class="num">#</th><th>Supplier</th><th>Invoice</th><th class="num nowrap">Pay by</th>
+              <th class="num">Days left</th><th class="num">Unpaid</th><th class="num">Pay now</th>
+              <th class="num">Credit saved</th><th class="num">Paise per &#8377;</th>
+            </tr>
+          </thead>
+          <tbody id="plan-body"></tbody>
+        </table>
+      </div>
+      <div class="btnrow">
+        <a class="btn ghost" id="x-plan" href="#" download>Download the plan as CSV</a>
+      </div>
+    </section>
+
+    <section class="card" id="periods-card" hidden>
+      <h2>Return by return</h2>
+      <p class="hintline">Rule 37(1) puts the reversal in the GSTR-3B for the tax period <em>immediately following</em> the period the 180 days expire in. One day of invoice date can therefore move a reversal a whole return.</p>
+      <div class="tablewrap">
+        <table class="breakdown">
+          <thead>
+            <tr>
+              <th>Return period</th><th class="num nowrap">Due</th>
+              <th class="num">Must reverse</th><th class="num">Would reverse if unpaid</th>
+              <th class="num">Cash to avoid it</th><th class="num">Re-claim</th><th class="num">Net</th>
+            </tr>
+          </thead>
+          <tbody id="periods-body"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="card" id="ageing-card" hidden>
+      <h2>Ageing from the invoice date</h2>
+      <p class="hintline">Counted from the date on the invoice, not from any credit period the supplier allowed: that is where the 180 days run from. An invoice can be well within the supplier's terms and still about to cost you the credit.</p>
+      <div class="tablewrap">
+        <table class="breakdown">
+          <thead>
+            <tr>
+              <th>Days since the invoice</th><th class="num">Invoices</th><th class="num">Unpaid</th>
+              <th class="num">Credit at risk</th><th class="num">Must reverse</th>
+              <th class="num nowrap">First deadline</th><th class="num nowrap">Last deadline</th>
+            </tr>
+          </thead>
+          <tbody id="ageing-body"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="card" id="suppliers-card" hidden>
+      <h2>By supplier</h2>
+      <div class="tablewrap">
+        <table class="breakdown">
+          <thead>
+            <tr>
+              <th>Supplier</th><th class="mono">GSTIN</th><th class="num">Invoices</th><th class="num">Unpaid</th>
+              <th class="num">Credit at risk</th><th class="num">Must reverse</th>
+              <th class="num nowrap">Next deadline</th><th class="num">Paise per &#8377;</th>
+            </tr>
+          </thead>
+          <tbody id="suppliers-body"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="card" id="lines-card" hidden>
+      <h2>Invoice by invoice</h2>
+      <div class="seg" id="stage-tabs"></div>
+      <p class="hintline" id="stage-note"></p>
+      <div class="tablewrap">
+        <table class="breakdown">
+          <thead>
+            <tr>
+              <th>Supplier</th><th>Invoice</th><th class="num nowrap">Invoice date</th>
+              <th class="num nowrap">Day 180</th><th class="num">Days</th>
+              <th class="num">Total</th><th class="num">Paid</th><th class="num">Unpaid</th>
+              <th class="num">At risk</th><th class="num">Reverse</th><th>In return</th>
+            </tr>
+          </thead>
+          <tbody id="lines-body"></tbody>
+        </table>
+      </div>
+      <div class="rowdetail" id="rowdetail" hidden></div>
+      <div class="btnrow">
+        <a class="btn ghost" id="x-watchlist" href="#" download>Watch-list CSV</a>
+        <a class="btn ghost" id="x-reversals" href="#" download>Reversals CSV</a>
+        <a class="btn ghost" id="x-reclaims" href="#" download>Re-claims CSV</a>
+        <a class="btn ghost" id="x-all" href="#" download>Everything CSV</a>
+      </div>
+    </section>
+
+    <section class="card" id="paper-card" hidden>
+      <h2>Working paper for the return</h2>
+      <p class="hintline">What to reverse in this return and what to take again, with the table of FORM GSTR-3B each figure goes in and the invoices behind every number. Nothing is filed from here.</p>
+      <div class="field">
+        <label for="i-paper-period">Return period <span class="hint">any date inside it</span></label>
+        <input type="date" id="i-paper-period">
+      </div>
+      <pre class="paper" id="paper"></pre>
+      <div class="btnrow">
+        <button class="btn ghost" id="go-copy" type="button">Copy the working paper</button>
+        <a class="btn ghost" id="x-paper" href="#" download>Download as text</a>
+      </div>
+      <p class="hintline" id="copy-status" role="status"></p>
+    </section>
+
+    <section class="card">
+      <h2>Add an invoice by hand</h2>
+      <div class="row2">
+        <div class="field">
+          <label for="n-supplier">Supplier</label>
+          <input type="text" id="n-supplier" placeholder="Sundar Metals">
+        </div>
+        <div class="field">
+          <label for="n-gstin">Supplier GSTIN <span class="hint">optional</span></label>
+          <input type="text" id="n-gstin" placeholder="27AAPFU0939F1ZV" spellcheck="false">
+        </div>
+      </div>
+      <div class="row2">
+        <div class="field">
+          <label for="n-invno">Invoice number</label>
+          <input type="text" id="n-invno" placeholder="INV/0042/26-27">
+        </div>
+        <div class="field">
+          <label for="n-invdate">Invoice date <span class="hint">the 180 days run from this</span></label>
+          <input type="date" id="n-invdate">
+        </div>
+      </div>
+      <div class="row2">
+        <div class="field">
+          <label for="n-taxable">Taxable value</label>
+          <div class="inp has-pre">
+            <span class="pre">&#8377;</span>
+            <input type="text" id="n-taxable" inputmode="decimal" placeholder="1,00,000">
+          </div>
+        </div>
+        <div class="field">
+          <label for="n-total">Invoice total <span class="hint">optional &mdash; value plus tax</span></label>
+          <div class="inp has-pre">
+            <span class="pre">&#8377;</span>
+            <input type="text" id="n-total" inputmode="decimal" placeholder="1,18,000">
+          </div>
+        </div>
+      </div>
+      <div class="row2">
+        <div class="field">
+          <label for="n-igst">IGST credit taken</label>
+          <div class="inp has-pre">
+            <span class="pre">&#8377;</span>
+            <input type="text" id="n-igst" inputmode="decimal" placeholder="18,000">
+          </div>
+        </div>
+        <div class="field">
+          <label for="n-cess">Cess credit taken</label>
+          <div class="inp has-pre">
+            <span class="pre">&#8377;</span>
+            <input type="text" id="n-cess" inputmode="decimal" placeholder="0">
+          </div>
+        </div>
+      </div>
+      <div class="row2">
+        <div class="field">
+          <label for="n-cgst">CGST credit taken</label>
+          <div class="inp has-pre">
+            <span class="pre">&#8377;</span>
+            <input type="text" id="n-cgst" inputmode="decimal" placeholder="0">
+          </div>
+        </div>
+        <div class="field">
+          <label for="n-sgst">SGST or UTGST credit taken</label>
+          <div class="inp has-pre">
+            <span class="pre">&#8377;</span>
+            <input type="text" id="n-sgst" inputmode="decimal" placeholder="0">
+          </div>
+        </div>
+      </div>
+      <div class="row2">
+        <div class="field">
+          <label for="n-paid">Paid to the supplier so far</label>
+          <div class="inp has-pre">
+            <span class="pre">&#8377;</span>
+            <input type="text" id="n-paid" inputmode="decimal" placeholder="0">
+          </div>
+        </div>
+        <div class="field">
+          <label for="n-paiddate">On <span class="hint">the date of that payment</span></label>
+          <input type="date" id="n-paiddate">
+        </div>
+      </div>
+      <div class="field">
+        <label for="n-exclusion">Out of scope, because</label>
+        <select id="n-exclusion">
+          <option value="">In scope &mdash; the 180 days apply</option>
+          <option value="reverse-charge">Reverse charge &mdash; I pay the tax myself</option>
+          <option value="schedule-i">Schedule I supply, made without consideration</option>
+          <option value="section-15-2-b">An amount added under s.15(2)(b)</option>
+          <option value="no-credit">No input tax credit taken on it</option>
+        </select>
+      </div>
+      <div class="btnrow">
+        <button class="btn primary" id="go-add" type="button">Add this invoice</button>
+      </div>
+      <p class="hintline" id="add-status" role="status"></p>
+      <div class="note bad" id="add-error" hidden></div>
+    </section>
+
+    <section class="prose">
+      <h2>How the clock is worked out</h2>
+      <p>Under the <strong>second proviso to section 16(2) of the Central Goods and Services Tax Act, 2017</strong>, credit taken on a purchase is conditional on paying the supplier <em>the value of the supply along with the tax on it</em> within <strong>180 days of the date the supplier issued the invoice</strong>. Miss that, and <strong>rule 37 of the CGST Rules, 2017</strong> requires the credit to be reversed &mdash; in proportion to whatever is left unpaid.</p>
+      <p>So for each invoice this tool computes:</p>
+      <ul>
+        <li><strong>Day 180</strong> &mdash; the invoice date plus 180 days, which is the last day the supplier can be paid.</li>
+        <li><strong>What was unpaid on that day</strong>, from the payments recorded against the invoice.</li>
+        <li><strong>The reversal</strong> &mdash; the credit availed, times the unpaid amount, divided by the invoice total, head by head.</li>
+        <li><strong>The return it goes in</strong> &mdash; the GSTR-3B for the tax period <em>immediately following</em> the period day 180 falls in, and the day that return is due.</li>
+        <li><strong>The re-claim</strong> &mdash; rule 37(2) lets you take the credit again once the supplier is paid, in the return for the period you pay in. Rule 37(4) keeps the section 16(4) time limit out of the way, so a payment years later still restores it.</li>
+      </ul>
+      <p>A part payment reverses a part of the credit, which is what makes paying <em>something</em> worth doing. Pay &#8377;50,000 of a &#8377;1,18,000 invoice carrying &#8377;18,000 of credit and &#8377;10,372.88 reverses instead of &#8377;18,000.</p>
+      <p><strong>Which supplier to pay first is not the biggest invoice.</strong> It is the one protecting the most credit per rupee, which is the one taxed highest: &#8377;1,00,000 paid against a 28 per cent purchase saves &#8377;21,875 of credit, the same money against a 5 per cent purchase saves &#8377;4,762. The payment plan ranks on exactly that, with the nearest deadline breaking a tie.</p>
+
+      <h2>Where the reversal is reported</h2>
+      <p>Per <strong>Circular No. 170/02/2022-GST dated 6 July 2022</strong>, a rule 37 reversal goes in <strong>table 4(B)(2)</strong> of FORM GSTR-3B &mdash; the reversals that are not permanent and can be reclaimed &mdash; and the later re-claim in <strong>table 4(A)(5)</strong>, disclosed in <strong>table 4(D)(1)</strong>. Reported anywhere else it becomes a permanent reversal, does not reach the portal's reversal ledger, and leaves no balance to re-claim against. The working paper above states the table against every figure.</p>
+
+      <details class="assumptions">
+        <summary>The figures used, and what you can change</summary>
+        <ul>
+          <li><strong>180 days</strong>, from the second proviso to s.16(2) and rule 37(1). Changeable, in case the period is amended.</li>
+          <li><strong>Counted from the day after the invoice date</strong>, so day 180 is the invoice date plus 180 days. This is a convention rather than something the rule spells out &mdash; it follows s.9 of the General Clauses Act, 1897, under which "from" excludes the first day. It changes the answer only where day 180 falls at a month end, and the date is shown against every invoice so you can check it.</li>
+          <li><strong>The reversal goes in the return for the period immediately following</strong> the one the 180 days expire in, which is what rule 37(1) says. It is <em>not</em> the period the 181st day falls in: those coincide only when day 180 is the last day of a period.</li>
+          <li><strong>GSTR-3B due on the 20th</strong> for a monthly filer, the <strong>22nd or 24th</strong> for a quarterly one depending on the State or Union territory of your principal place of business &mdash; rule 61(1). Chandigarh and Delhi are in the 24th group.</li>
+          <li><strong>Interest at 18% a year</strong>, the rate notified under s.50(3). Charged here only on a reversal made <em>after</em> the return it belonged in fell due, and labelled indicative. Whether any interest arises on a timely reversal is unsettled: s.50(3) reaches credit "wrongly availed <em>and utilised</em>", and rule 88B(3) runs the clock from the date of utilisation. Set the rate to nil to take that view, or switch the basis to run from the return in which the credit was taken to see the larger exposure.</li>
+          <li><strong>Out of scope:</strong> supplies on which you pay the tax yourself under reverse charge, Schedule I supplies made without consideration, and amounts added under s.15(2)(b) &mdash; the last two deemed paid by the provisos to rule 37(1). Mark them in the register and they are counted out, with the reason shown.</li>
+          <li><strong>Ageing bands of 0&ndash;60, 61&ndash;120, 121&ndash;150, 151&ndash;180 and over 180 days</strong>, chosen around the deadline rather than the 30-day steps of an ordinary payables ageing.</li>
+          <li>All amounts are held in whole paise, so the totals are exact. The figures staged for the return are rounded to whole rupees, as s.170 requires, head by head &mdash; each head is its own column in the return.</li>
+          <li>An invoice total left blank is taken as the taxable value plus the credit heads. Where you took less credit than the supplier charged, enter the real invoice total: the proportion is computed against what you owe, not against the credit.</li>
+        </ul>
+      </details>
+
+      <div class="note">This tool works out figures from a register you give it. It is not tax advice and it files nothing. It cannot tell you whether a credit was eligible in the first place, and it has no way of knowing about debit notes, credit notes, imports or anything not in the file. Rule 37 was substituted with effect from 1 October 2022 and this implements that version. Check every figure against your own invoices and ledger, and confirm the law with the GST portal or a qualified practitioner, before you file.</div>
+    </section>
+  </div>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <span>Open MSME &middot; open-source tool for MSMEs in India &amp; the Philippines &middot; MIT</span>
+    <span>Runs on your computer. No accounts, no uploads, no telemetry.</span>
+  </div>
+</footer>
+
+<script src="assets/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,79 @@
+/* The parts of this tool's interface that the shared kit does not cover. */
+
+.blockhead { margin: 24px 0 12px; font-size: 1.05rem; }
+.hintline { font-size: .82rem; color: var(--ink-3); margin: 10px 0 0; }
+.note.bad { border-left-color: var(--bad); color: var(--ink-2); }
+.note.ok { border-left-color: var(--ok); color: var(--ink-2); }
+
+input[type=file] {
+  width: 100%;
+  font: inherit;
+  font-size: .9rem;
+  padding: 9px 11px;
+  border-radius: 9px;
+  border: 1px dashed var(--line-2);
+  background: var(--surface-2);
+  color: var(--ink-2);
+}
+input[type=file]:focus { outline: 2px solid var(--tool); outline-offset: 1px; }
+input[type=date] { width: 100%; font: inherit; font-size: .95rem; padding: 10px 13px; border-radius: 9px; border: 1px solid var(--line-2); background: var(--surface); color: var(--ink); }
+input[type=date]:focus { outline: 2px solid var(--tool); outline-offset: 1px; border-color: var(--tool); }
+
+.pathbox { margin: 0 0 14px; }
+.pathbox .field { margin-top: 10px; }
+
+.checkrow { display: flex; align-items: flex-start; gap: 9px; margin: 0 0 14px; font-size: .88rem; color: var(--ink-2); }
+.checkrow input[type=checkbox] { width: 16px; height: 16px; margin: 3px 0 0; accent-color: var(--tool); flex: none; }
+
+.tablewrap { overflow-x: auto; }
+.tablewrap .breakdown { min-width: 620px; }
+.breakdown th { font-size: .78rem; color: var(--ink-3); font-weight: 600; white-space: nowrap; }
+.breakdown td.mono, .breakdown th.mono { font-family: var(--mono); font-size: .84rem; }
+.breakdown td.risk { color: var(--warn); font-weight: 600; }
+.breakdown td.bad { color: var(--bad); font-weight: 600; }
+.breakdown td.good { color: var(--ok); }
+.breakdown td.nowrap, .breakdown th.nowrap { white-space: nowrap; }
+.breakdown tr.rowmain td { font-weight: 600; }
+.breakdown tr.rowpick { cursor: pointer; }
+.breakdown tr.rowpick:hover td { background: var(--surface-2); }
+.breakdown tr.rowpick[aria-selected=true] td { background: color-mix(in srgb, var(--tool) 10%, var(--surface)); }
+.breakdown caption { caption-side: bottom; text-align: left; font-size: .8rem; color: var(--ink-3); padding-top: 10px; }
+
+.empty { color: var(--ink-3); font-size: .88rem; padding: 12px 2px; }
+.seg { margin-bottom: 14px; }
+.seg button .n { font-family: var(--mono); font-size: .76rem; opacity: .75; margin-left: 5px; }
+
+.tags { display: flex; gap: 8px; flex-wrap: wrap; margin: 0 0 14px; }
+.tag { font-family: var(--mono); font-size: .72rem; padding: 3px 8px; border-radius: 999px; background: var(--surface-2); color: var(--ink-2); border: 1px solid var(--line); }
+.tag.warn { color: var(--warn); border-color: color-mix(in srgb, var(--warn) 35%, var(--line)); }
+.tag.bad { color: var(--bad); border-color: color-mix(in srgb, var(--bad) 35%, var(--line)); }
+.tag.ok { color: var(--ok); border-color: color-mix(in srgb, var(--ok) 35%, var(--line)); }
+
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; margin: 0 0 16px; }
+.stat { background: var(--surface-2); border: 1px solid var(--line); border-radius: 9px; padding: 12px 14px; }
+.stat .k { font-size: .74rem; color: var(--ink-3); }
+.stat .v { font-size: 1.15rem; font-weight: 700; font-variant-numeric: tabular-nums; margin-top: 2px; }
+.stat .s { font-size: .76rem; color: var(--ink-3); margin-top: 2px; }
+.stat.risk .v { color: var(--warn); }
+.stat.bad .v { color: var(--bad); }
+.stat.ok .v { color: var(--ok); }
+
+.paper { white-space: pre; overflow-x: auto; font-size: .78rem; line-height: 1.45; }
+.problems { font-size: .84rem; color: var(--ink-2); margin: 0; padding-left: 20px; }
+.problems li { margin: 3px 0; }
+.problems code { font-family: var(--mono); font-size: .9em; }
+.busy { opacity: .55; }
+.rowdetail { background: var(--surface-2); border: 1px solid var(--line); border-radius: 9px; padding: 14px 16px; margin: 14px 0 0; }
+.rowdetail h3 { margin: 0 0 8px; font-size: .95rem; }
+.rowdetail .why { font-size: .86rem; color: var(--ink-2); margin: 0 0 12px; }
+.paylist { list-style: none; margin: 0 0 12px; padding: 0; font-size: .86rem; }
+.paylist li { display: flex; align-items: center; gap: 10px; padding: 5px 0; border-bottom: 1px solid var(--line); }
+.paylist .amt { font-family: var(--mono); margin-left: auto; }
+.paylist button { font: inherit; font-size: .78rem; cursor: pointer; border: 1px solid var(--line-2); background: var(--surface); color: var(--ink-2); border-radius: 7px; padding: 3px 8px; }
+.paylist button:hover { color: var(--bad); border-color: var(--bad); }
+.payform { display: grid; grid-template-columns: 1fr 1fr auto; gap: 10px; align-items: end; }
+@media (max-width: 560px) { .payform { grid-template-columns: 1fr; } }
+.payform .field { margin: 0; }
+
+/* Two money fields side by side are too narrow to read on a phone. */
+@media (max-width: 460px) { .row2 { grid-template-columns: 1fr; } }

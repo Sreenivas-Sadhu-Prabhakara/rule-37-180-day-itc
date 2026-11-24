@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; font-src 'self'; form-action 'self'">
+<title>Rule 37 ITC reversal tracker for the 180-day supplier payment deadline · Open MSME</title>
+<meta name="description" content="Free single-binary tool for GST-registered Indian businesses: put every purchase invoice on the CGST rule 37 180-day clock, see the input tax credit that reverses if the supplier is not paid, and know which suppliers to pay first to protect the most credit.">
+<meta name="color-scheme" content="light dark">
+<meta property="og:title" content="Rule 37 ITC reversal tracker for the 180-day supplier payment deadline">
+<meta property="og:description" content="Pay the supplier within 180 days or reverse the input tax credit. This tool shows the deadline per invoice, the credit at stake, the return the reversal lands in, and whom to pay first.">
+<meta property="og:type" content="website">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/style.css">
+<link rel="stylesheet" href="assets/accent.css">
+<script src="assets/theme-init.js"></script>
+</head>
+<body>
+<header class="topbar">
+  <div class="wrap">
+    <a class="brand" href="./">
+      <span class="dot"></span>
+      <b>Open MSME</b>
+      <span class="tag">Rule 37 guard</span>
+    </a>
+    <span class="sp"></span>
+    <a class="home" href="https://sreenivas-sadhu-prabhakara.github.io/openmsme/">All tools</a>
+    <button class="themer" data-themer type="button">Theme</button>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="wrap">
+      <div class="eyebrow">MSME finance &amp; payments &middot; India</div>
+      <h1>Rule 37 ITC reversal tracker that shows which suppliers to pay before day 180</h1>
+      <p class="lede">You have claimed the input tax credit. If the supplier is not paid within 180 days of their invoice date, that credit must be reversed. This tool puts every purchase invoice on the clock, works out exactly how much reverses, names the return it lands in, and ranks the payments that protect the most credit for the cash you have.</p>
+      <div class="who">
+        <span class="pill">GST-registered MSMEs claiming input tax credit</span>
+        <span class="pill">Bookkeepers &amp; accounts payable</span>
+        <span class="pill reg">CGST rule 37 &middot; s.16(2) second proviso</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <section class="prose">
+      <h2>What it does</h2>
+      <p>Give it a CSV of your purchase register &mdash; the invoices you have taken credit on &mdash; and, if you have one, a CSV of the payments that have actually gone out to suppliers. For every invoice it computes:</p>
+      <ul>
+        <li><strong>Day 180</strong>, the last day the supplier can be paid, from the invoice date.</li>
+        <li><strong>What was unpaid on that day</strong>, and so <strong>the credit that must be reversed</strong> &mdash; in proportion to the unpaid part, head by head across integrated, central, State and cess.</li>
+        <li><strong>The return the reversal belongs in</strong>, which is the FORM GSTR-3B for the tax period <em>immediately following</em> the one the 180 days expire in, and the day that return falls due.</li>
+        <li><strong>The re-claim</strong>, once the supplier is paid, in the return for the period you pay in.</li>
+      </ul>
+      <p>Then it rolls the whole register up into the four figures that decide what to do this week:</p>
+      <div class="featgrid">
+        <div class="feat">
+          <h3>Credit you can still protect</h3>
+          <p>The input tax credit on everything unpaid whose 180 days have not yet run out, with the cash it would take to save all of it. Every rupee here is still yours if you act.</p>
+        </div>
+        <div class="feat">
+          <h3>What reverses this period</h3>
+          <p>The invoices whose deadline falls inside the return period you are in, so you can see what tips over if this month goes by.</p>
+        </div>
+        <div class="feat">
+          <h3>What must be reversed now</h3>
+          <p>Deadlines already gone, totalled per head and grouped by the return each belongs in, with the returns that have already fallen due marked.</p>
+        </div>
+        <div class="feat">
+          <h3>Whom to pay first</h3>
+          <p>Give it the cash you have. It ranks the payments that protect the most credit per rupee, part-paying the last one, and tells you what is lost if no more money appears.</p>
+        </div>
+      </div>
+
+      <h2>Who it's for</h2>
+      <p>GST-registered micro, small and medium businesses in India that buy on credit and claim input tax credit, and the bookkeepers and accountants who prepare their GSTR-3B. If you have more than a handful of purchase invoices and you sometimes pay a supplier slowly, this is a liability building up quietly in your books: the credit was claimed months ago and spent against output tax, and the reversal lands on a return long after anyone remembers the invoice.</p>
+      <p>It is most useful to a business whose payables stretch past four months, and to anyone who has ever been handed a rule 37 computation in an audit.</p>
+
+      <h2>The rule it implements</h2>
+      <p>Input tax credit on a purchase is <em>conditional</em>. Under the <strong>second proviso to section 16(2) of the Central Goods and Services Tax Act, 2017</strong>, where the recipient of a supply &mdash; other than one on which tax is payable on reverse charge &mdash; fails to pay the supplier <em>the amount towards the value of supply along with tax payable thereon</em> within <strong>one hundred and eighty days from the date of issue of invoice by the supplier</strong>, an amount equal to the credit availed is added to the recipient's output tax liability, with interest. The <strong>third proviso</strong> restores the credit on payment.</p>
+      <p><strong>Rule 37 of the Central Goods and Services Tax Rules, 2017</strong> prescribes the manner. It was <strong>substituted with effect from 1 October 2022</strong> by Notification No. 19/2022-Central Tax dated 28 September 2022, and amended by Notification No. 26/2022-Central Tax dated 26 December 2022 with retrospective effect from the same date. This tool implements that current version, under which rule 37(1) requires the registered person to</p>
+      <blockquote class="note">&hellip;pay or reverse an amount equal to the input tax credit availed in respect of such supply, proportionate to the amount not paid to the supplier, along with interest payable thereon under section 50, while furnishing the return in FORM GSTR-3B for the tax period immediately following the period of one hundred and eighty days from the date of the issue of the invoice.</blockquote>
+      <p>Three things in that sentence do the work:</p>
+      <ul>
+        <li><strong>"pay or reverse"</strong> &mdash; the credit comes back out, as a reversal in the return rather than as a cash demand.</li>
+        <li><strong>"proportionate to the amount not paid"</strong> &mdash; a part payment reverses a part of the credit. These words were inserted by the December 2022 notification; before them the position was read as all-or-nothing, which is why older spreadsheets get partial payments wrong.</li>
+        <li><strong>"the tax period immediately following"</strong> &mdash; the period <em>after</em> the one day 180 falls in. That is not the same as the period the 181st day falls in: they coincide only when day 180 is the last day of a period. One day of invoice date can move a reversal a whole return.</li>
+      </ul>
+      <p>Rule 37(2) entitles you to take the credit again on paying the supplier, and <strong>rule 37(4)</strong> &mdash; which the substitution left untouched &mdash; keeps the section 16(4) time limit out of the way, so a supplier paid two years late still restores the credit. Two provisos to rule 37(1) switch the clock off entirely for <strong>Schedule I supplies</strong> made without consideration and for amounts added under <strong>section 15(2)(b)</strong>, both of which are deemed paid.</p>
+      <p>Per <strong>Circular No. 170/02/2022-GST dated 6 July 2022</strong>, the reversal is reported in <strong>table 4(B)(2)</strong> of FORM GSTR-3B, and the re-claim in <strong>table 4(A)(5)</strong> with disclosure in <strong>table 4(D)(1)</strong> ("ITC reclaimed which was reversed under Table 4(B)(2) in earlier tax period"). The table matters: a rule 37 reversal reported in table 4(B)(1) instead is treated as permanent, never reaches the portal's Electronic Credit Reversal and Re-claimed Statement, and leaves no balance to re-claim against when the supplier is finally paid. The working paper this tool prints states the table against every figure.</p>
+
+      <h2>This is not the other two clocks</h2>
+      <p>Three different rules can fire on the same fact &mdash; an unpaid supplier &mdash; and they have nothing else in common. It is worth being clear which one you are looking at.</p>
+      <div class="featgrid">
+        <div class="feat">
+          <h3>This tool: did <em>you</em> pay?</h3>
+          <p><strong>CGST rule 37.</strong> You claimed credit and have not paid the supplier within 180 days of the invoice date. <em>You</em> reverse <em>your own</em> credit in your GSTR-3B, and take it back when you pay.</p>
+        </div>
+        <div class="feat">
+          <h3>Did the <em>supplier</em> file?</h3>
+          <p><strong>CGST s.16(2)(aa) and rule 36(4).</strong> A different failure altogether: the invoice is missing from GSTR-2B because the supplier never reported it, so the credit was never available to claim. That is the <a href="https://sreenivas-sadhu-prabhakara.github.io/gstr2b-itc-reconciler/">GSTR-2B vs purchase register reconciler</a>.</p>
+        </div>
+        <div class="feat">
+          <h3>Does the supplier get interest?</h3>
+          <p><strong>MSMED Act 2006, s.15 and s.16.</strong> A different statute with a 45-day limit, running from acceptance rather than the invoice date, and a consequence that falls the other way: compound interest payable to a micro or small supplier. That is the <a href="https://sreenivas-sadhu-prabhakara.github.io/msme-payment-clock-samadhaan/">MSME 45-day payment clock and Samadhaan builder</a>.</p>
+        </div>
+      </div>
+      <p>So one unpaid invoice can put you 45 days from owing statutory interest under one Act and 180 days from losing input tax credit under another, with two different start dates. This tool is the 180-day one, and only that.</p>
+
+      <h2>Install &amp; run</h2>
+      <p>It is one Go program with no dependencies beyond the standard library, so there is nothing to install and nothing to configure.</p>
+      <pre><code>git clone https://github.com/sreenivas-sadhu-prabhakara/rule-37-180-day-itc.git
+cd rule-37-180-day-itc
+
+# build a single binary
+go build -o rule-37-180-day-itc .
+./rule-37-180-day-itc
+
+# or just run it
+go run .</code></pre>
+      <p>Then open <code>http://127.0.0.1:8080/</code> in a browser. Two flags change the defaults:</p>
+      <pre><code>./rule-37-180-day-itc -addr 127.0.0.1:9000 -data ~/gst/rule-37-data.json</code></pre>
+      <p>Export your purchase register as a CSV. The headings are read flexibly &mdash; the usual spellings used by spreadsheets and accounting packages are understood, title rows above the headings are skipped, a total row at the foot is ignored, and comma, semicolon, tab and pipe separated files all read. A register like this works:</p>
+      <pre><code>Supplier GSTIN,Supplier name,Invoice no,Invoice date,Taxable value,IGST,CGST,SGST,Cess,Invoice value,Amount paid,Payment date,Out-of-scope reason
+27AAPFU0939F1ZV,Sundar Metals,SM/001/26-27,15-07-2026,100000.00,18000.00,0,0,0,118000.00,0,,
+29AABCU9603R1ZM,Nandi Hardware,NH-0045,24-11-2026,100000.00,0,9000.00,9000.00,0,118000.00,50000.00,01-12-2026,
+24AACCG0527D1ZY,Ganga Transport,GT/900,15-07-2026,50000.00,2500.00,0,0,0,52500.00,-,-,reverse-charge</code></pre>
+      <p>Only an <strong>invoice number</strong> and an <strong>invoice date</strong> are required on each row; the date because the 180 days are counted from it. Every other figure may be blank and counts as nil. A row that cannot be used is reported with its line number and left out, and the rest of the file still imports.</p>
+      <p>Payments can go in the register itself, in an <strong>Amount paid</strong> column with a <strong>Payment date</strong> beside it, or in a second file of one payment per line, matched to the invoice by supplier GSTIN and invoice number:</p>
+      <pre><code>Supplier GSTIN,Invoice no,Payment date,Amount,UTR no
+27AAPFU0939F1ZV,SM/001/26-27,10-02-2027,118000.00,UTR2027021000001
+29AABCU9603R1ZM,NH-0045,05-01-2027,68000.00,UTR2027010500042</code></pre>
+      <p>Give the payment dates. A paid amount with no date can only be read as "paid by today", which means the 180-day test has to treat it as late &mdash; the tool says so, but the date is what makes the answer right. Both sample files above ship in <code>internal/rule37/testdata/</code>.</p>
+
+      <h2>What it stores</h2>
+      <p>One JSON file on your own computer, <code>./rule-37-itc-data.json</code> by default, holding your settings and your invoices with their payments. It is written atomically &mdash; to a temporary file in the same directory that is then renamed &mdash; so an interrupted write cannot corrupt it, and it is created readable only by you. A file that exists but cannot be parsed stops the tool with a message rather than being overwritten: your records are not the tool's to discard.</p>
+      <p>Nothing else leaves the machine. The tool binds to <strong>127.0.0.1</strong>, makes no outbound network calls of any kind, has no accounts, no analytics and no telemetry, and loads no fonts, scripts or styles from anywhere but itself. It never contacts a supplier, never touches the GST portal and files nothing. Delete that one file and the tool knows nothing.</p>
+
+      <h2>Features</h2>
+      <div class="featgrid">
+        <div class="feat">
+          <h3>Calendar-correct to the day</h3>
+          <p>Day 180 is computed on the real calendar, so a leap day inside the span counts once and a month end never rolls over. The same invoice date one year apart can give deadlines a day apart, and it does.</p>
+        </div>
+        <div class="feat">
+          <h3>Proportionate to the paisa</h3>
+          <p>Part payments reverse their own proportion of the credit, computed in exact integer arithmetic head by head, with the figure for the return rounded to whole rupees as s.170 requires.</p>
+        </div>
+        <div class="feat">
+          <h3>Return-by-return schedule</h3>
+          <p>Every reversal and re-claim mapped to the GSTR-3B it belongs in, with the due date, what is already overdue, and the net addition to each return's output tax liability.</p>
+        </div>
+        <div class="feat">
+          <h3>Monthly or QRMP</h3>
+          <p>Quarterly filers get quarters, with the due day set from the rule 61 table &mdash; the 22nd or the 24th depending on the State or Union territory of the principal place of business.</p>
+        </div>
+        <div class="feat">
+          <h3>Ageing built round the deadline</h3>
+          <p>Bands of 0&ndash;60, 61&ndash;120, 121&ndash;150, 151&ndash;180 and over 180 days from the invoice date, not the 30-day steps of an ordinary payables ageing, because the cliff is at 180.</p>
+        </div>
+        <div class="feat">
+          <h3>A payment plan that is actually optimal</h3>
+          <p>Because a part payment protects its own proportion, ranking by credit-per-rupee is the provable best use of limited cash, not a heuristic. The nearest deadline breaks a tie.</p>
+        </div>
+        <div class="feat">
+          <h3>A working paper to file</h3>
+          <p>A printable paper per return period: table 4(B)(2) reversals, table 4(A)(5) re-claims, the net effect, the invoices behind every figure, and a signature line.</p>
+        </div>
+        <div class="feat">
+          <h3>Five CSVs out</h3>
+          <p>The watch-list, the reversals, the re-claims, the payment plan and everything, with plain decimal amounts your spreadsheet or accounting package will read back.</p>
+        </div>
+      </div>
+
+      <h2>A worked example</h2>
+      <p>A &#8377;1,18,000 invoice dated 15 July 2026 &mdash; &#8377;1,00,000 of goods and &#8377;18,000 of integrated tax &mdash; on which you took the full credit.</p>
+      <ul>
+        <li>Day 180 is <strong>11 January 2027</strong>. The 180 days expire in the January 2027 return period, so the reversal belongs in the <strong>February 2027</strong> GSTR-3B, due <strong>20 March 2027</strong>.</li>
+        <li>Pay nothing and <strong>&#8377;18,000</strong> reverses in table 4(B)(2) of that return.</li>
+        <li>Pay &#8377;50,000 by 11 January and &#8377;68,000 is unpaid, so <strong>&#8377;10,372.88</strong> reverses &mdash; &#8377;18,000 &times; &#8377;68,000 &divide; &#8377;1,18,000, which the return carries as &#8377;10,373.</li>
+        <li>Pay the whole &#8377;1,18,000 on 10 February 2027 instead and you still report the &#8377;18,000 reversal in the February return &mdash; and take the same &#8377;18,000 back in table 4(A)(5) of that same return. Net nil, but both entries have to appear.</li>
+        <li>Miss the February return and reverse it only in June: at 18% a year, roughly <strong>&#8377;816</strong> of interest exposure for 92 days, which the tool shows as indicative and explains.</li>
+      </ul>
+      <p>And the part that changes behaviour: &#8377;1,00,000 of cash paid against a <strong>28%</strong> purchase protects &#8377;21,875 of credit, while the same money against a <strong>5%</strong> purchase protects &#8377;4,762. When the cash will not stretch to everyone, the tool pays the high-rate invoices first &mdash; which is rarely the order a payables ageing suggests.</p>
+
+      <details class="assumptions">
+        <summary>Figures, provisions and settings &mdash; every one of them changeable</summary>
+        <ul>
+          <li><strong>180 days</strong> &mdash; second proviso to s.16(2) of the CGST Act, 2017 and rule 37(1) of the CGST Rules, 2017. A named constant in one place, overridable in case the period is amended.</li>
+          <li><strong>Counted from the day after the invoice date</strong>, so day 180 is the invoice date plus 180 days. This is a <em>convention</em>, not something the rule spells out: it follows s.9 of the General Clauses Act, 1897, under which "from" excludes the first day, and it is what practice does. The alternative &mdash; counting the invoice date as day one &mdash; makes every deadline a day earlier. It changes the answer only where day 180 falls at a period boundary, and the computed date is shown against every invoice so you can check it.</li>
+          <li><strong>The reversal goes in the return for the tax period immediately following</strong> the one the 180 days expire in &mdash; rule 37(1). Not the period containing the 181st day.</li>
+          <li><strong>GSTR-3B due on the 20th</strong> of the following month for a monthly filer, and the <strong>22nd or 24th</strong> of the month after the quarter for a QRMP filer, by the two groups of States and Union territories in <strong>rule 61(1)(ii)</strong>. Chandigarh and Delhi are in the 24th group, which is the entry most often got wrong.</li>
+          <li><strong>Interest at 18% a year</strong> &mdash; the rate notified under <strong>s.50(3)</strong> of the CGST Act (Notification No. 13/2017-Central Tax dated 28 June 2017, as amended retrospectively from 1 July 2017 by s.116 of and the Sixth Schedule to the Finance Act, 2022). The Act caps the notifiable rate at 24%. Charged here only on a reversal made <em>after</em> the return it belonged in fell due, and labelled indicative throughout.</li>
+          <li><strong>Whether interest arises at all on a timely reversal is unsettled.</strong> The pre-October-2022 rule 37(3), which ran interest from the date the credit was availed, was omitted by the same notification that substituted the rest. What is left says only "interest payable thereon under section 50", and s.50(3) now reaches credit "wrongly availed <em>and utilised</em>", with rule 88B(3) running the clock from the date of utilisation &mdash; which, by its Explanation, is when the electronic credit ledger balance falls below the credit in question. There is a respectable view that a reversal made in the correct return attracts none, and practitioners who would run interest from availment. No circular settles it. The tool takes no side: set the rate to nil for the first view, or switch the basis to run from the return in which the credit was taken to see the larger exposure. Decide it with your practitioner, not with a tool.</li>
+          <li><strong>Out of scope:</strong> supplies on which tax is payable on reverse charge (excluded by the second proviso to s.16(2) itself), <strong>Schedule I</strong> supplies made without consideration and amounts added under <strong>s.15(2)(b)</strong> (both deemed paid by the provisos to rule 37(1)), and any purchase on which no credit was taken. Mark them in the register and they are counted out, with the reason shown rather than hidden.</li>
+          <li><strong>Ageing bands of 0&ndash;60, 61&ndash;120, 121&ndash;150, 151&ndash;180 and over 180 days</strong> from the invoice date. A convention of this tool, not of the law, and changeable.</li>
+          <li><strong>A re-claim is never scheduled in a return earlier than its own reversal.</strong> A quarterly filer who pays soon after day 180 can have the payment fall in the quarter the 180 days expired in while the reversal belongs in the quarter after; the portal's reversal statement would reject a re-claim with no balance behind it, so the tool carries such a payment forward to the reversal's own return, where the two cancel.</li>
+          <li>All amounts are held in whole paise, so totals are exact and never drift. The figures staged for the return are rounded to whole rupees as <strong>s.170</strong> of the CGST Act requires, head by head &mdash; each head is its own column in the return, so four rounded heads can differ by a paisa or two from one rounded total. That is the right way round.</li>
+          <li>An invoice total left blank is taken as the taxable value plus the credit heads. Where you took less credit than the supplier charged, enter the real invoice total: the proportion is computed against what you owe the supplier, not against the credit.</li>
+          <li>Statutory provisions are cited as they stood when this was written. Rates, dates and rules change &mdash; and the validity of the 180-day condition is itself reported to be under challenge before a High Court, with nothing stayed and the rule fully in force. Confirm the current position with the GST portal or a qualified practitioner.</li>
+        </ul>
+      </details>
+
+      <div class="note">This tool works out figures from files you give it. It is not tax advice, it is not a return, and it files nothing. It cannot tell you whether a credit was eligible in the first place &mdash; that also turns on receipt of the goods or services, the supplier having reported and paid, blocked credits and the time limit for claiming &mdash; and it knows nothing about debit notes, credit notes, imports or anything absent from the file. Rule 37 was substituted with effect from 1 October 2022 and this implements that version. Check every figure against your own invoices and ledger, and confirm the law with the GST portal or a qualified practitioner, before you file.</div>
+    </section>
+  </div>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <span>Open MSME &middot; open-source tool for MSMEs in India &amp; the Philippines &middot; MIT</span>
+    <span><a href="https://sreenivas-sadhu-prabhakara.github.io/openmsme/">All tools</a></span>
+  </div>
+</footer>
+
+<script src="assets/ui.js"></script>
+</body>
+</html>

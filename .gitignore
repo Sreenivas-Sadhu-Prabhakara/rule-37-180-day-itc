@@ -1,0 +1,9 @@
+.DS_Store
+
+# the local data file — your own purchase and payment records, never committed
+*-data.json
+rule-37-itc-data.json
+
+# built binaries
+/rule-37-180-day-itc
+/rule37

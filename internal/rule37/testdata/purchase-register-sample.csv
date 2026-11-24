@@ -1,0 +1,11 @@
+Purchase register — sample
+Financial year 2026-27
+
+Supplier GSTIN,Supplier name,Invoice no,Invoice date,Taxable value,IGST,CGST,SGST,Cess,Invoice value,Amount paid,Payment date,Out-of-scope reason,Remarks
+27AAPFU0939F1ZV,Sundar Metals,SM/001/26-27,15-07-2026,"1,00,000.00","18,000.00",0,0,0,"1,18,000.00",0,,,nothing paid yet
+29AABCU9603R1ZM,Nandi Hardware,NH-0045,24-11-2026,"1,00,000.00",0,"9,000.00","9,000.00",0,"1,18,000.00","50,000.00",01-12-2026,,part paid
+27AAPFU0939F1ZV,Sundar Metals,SM/002/26-27,04-10-2026,"1,00,000.00","5,000.00",0,0,0,"1,05,000.00",0,,,5 per cent goods
+29AAGCB7383J1ZS,Kaveri Plastics,KP/101,19-08-2026,"1,00,000.00","28,000.00",0,0,0,"1,28,000.00",0,,,28 per cent goods
+29AAGCB7383J1ZS,Kaveri Plastics,KP/100,15-07-2026,"1,00,000.00","18,000.00",0,0,0,"1,18,000.00","1,18,000.00",01-08-2026,,paid promptly
+24AACCG0527D1ZY,Ganga Transport,GT/900,15-07-2026,"50,000.00","2,500.00",0,0,0,"52,500.00",-,-,reverse-charge,goods transport agency
+TOTAL,,,,"5,50,000.00","71,500.00","9,000.00","9,000.00",0,"6,39,500.00","1,68,000.00",,,
